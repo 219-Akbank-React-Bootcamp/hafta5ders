@@ -1,4 +1,6 @@
 import React, { FC, useState } from 'react'
+import { useNavigate } from 'react-router'
+import { Link } from 'react-router-dom'
 import Button from '../Button'
 import Card from '../Card'
 import Checkbox from '../Checkbox'
@@ -7,8 +9,9 @@ import { Styled } from './LoginForm.styled'
 import { LoginFormProps } from './LoginForm.types'
 
 const LoginForm: FC<LoginFormProps> = (props) => {
-  const [formValues, setFormValues] = useState<any>({
-  })
+  const [formValues, setFormValues] = useState<any>({})
+
+  const navigate = useNavigate()
 
   return (
     <Styled>
@@ -35,8 +38,11 @@ const LoginForm: FC<LoginFormProps> = (props) => {
         </div>
 
         <Button>Login now</Button>
-        <p className='register-links'>
-          Don't have an account <a href="#" className='link'>Sign up!</a>
+        <p className="register-links">
+          Don't have an account{' '}
+          <Link className="link" to="/register">
+            Sign up!
+          </Link>
         </p>
       </Card>
     </Styled>

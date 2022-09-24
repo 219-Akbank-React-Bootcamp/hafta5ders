@@ -28,7 +28,7 @@ const Input: FC<InputProps> = (props) => {
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const v = e.target.value
     setValue(v)
-    props.onChange?.(e,v)
+    props.onChange?.(e, v)
   }
 
   return (
@@ -38,15 +38,18 @@ const Input: FC<InputProps> = (props) => {
           <span className="material-symbols-outlined">{props.icon}</span>
         </div>
       ) : null}
-      <input onChange={handleChange} type={calculateType()} value={value} placeholder={props.placeholder} />
+      <input
+        name={props.name}
+        onChange={handleChange}
+        type={calculateType()}
+        value={value}
+        placeholder={props.placeholder}
+      />
       {props.type === 'password' ? (
         <button onClick={handleClickEye} className="eye">
-          <span className="material-symbols-outlined">{
-
-            isSecret ? "visibility" : "visibility_off"
-
-
-          }</span>
+          <span className="material-symbols-outlined">
+            {isSecret ? 'visibility' : 'visibility_off'}
+          </span>
         </button>
       ) : null}
     </Styled>
