@@ -24,6 +24,10 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
     setFormValues((prev) => ({ ...prev, [name]: v }))
   }
 
+  const handleSubmit = () => {
+    props.onRegister?.(formValues)
+  }
+
   const navigate = useNavigate()
   return (
     <Styled>
@@ -39,6 +43,7 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
         />
         <Input
           onChange={handleChange}
+          name="password"
           value={formValues.password}
           icon="key"
           type="password"
@@ -47,6 +52,7 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
         />
 
         <Input
+          name="passwordConfirm"
           onChange={handleChange}
           value={formValues.passwordConfirm}
           icon="key"
@@ -58,7 +64,7 @@ const RegisterForm: FC<RegisterFormProps> = (props) => {
           <Checkbox label="I accept all terms & conditions" />
         </div>
 
-        <Button>Register now</Button>
+        <Button onClick={handleSubmit}>Register now</Button>
         <p className="register-links">
           Already have an account{' '}
           <Link className="link" to="/login">

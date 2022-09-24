@@ -4,14 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Link,
-} from "react-router-dom";
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -21,13 +14,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-     <Routes>
-      <Route path='/' element={<App/>}/>
-      <Route path='/login' element={<LoginPage/>}/>
-      <Route path='/register' element={<RegisterPage/>}/>
-     </Routes>
-    </BrowserRouter>
+   <App />
   </React.StrictMode>
 );
 

@@ -5,18 +5,32 @@ import Button from '../Button'
 import Card from '../Card'
 import Checkbox from '../Checkbox'
 import Input from '../Input'
+import { InputProps } from '../Input/Input.types'
 import { Styled } from './LoginForm.styled'
-import { LoginFormProps } from './LoginForm.types'
+import { LoginFormProps, LoginFormValuesProps } from './LoginForm.types'
 
 const LoginForm: FC<LoginFormProps> = (props) => {
-  const [formValues, setFormValues] = useState<any>({})
+  const [formValues, setFormValues] = useState<LoginFormValuesProps>({
+    username: '',
+    password: '',
+  })
+
+  const handleChange: InputProps['onChange'] = (e, v) => {
+    const name = e.target.name
+    setFormValues((prev) => ({ ...prev, [name]: v }))
+  }
 
   const navigate = useNavigate()
 
+  const handleSubmit = () => {
+    props.onLogin?.(formValues)
+  }
   return (
     <Styled>
       <Card title="Login">
         <Input
+          onChange={handleChange}
+          name="username"
           value={formValues.username}
           icon="person"
           type="text"
@@ -24,6 +38,8 @@ const LoginForm: FC<LoginFormProps> = (props) => {
           style={{ marginBottom: '15px' }}
         />
         <Input
+          onChange={handleChange}
+          name="password"
           value={formValues.password}
           icon="key"
           type="password"
@@ -37,7 +53,7 @@ const LoginForm: FC<LoginFormProps> = (props) => {
           </a>
         </div>
 
-        <Button>Login now</Button>
+        <Button onClick={handleSubmit}>Login now</Button>
         <p className="register-links">
           Don't have an account{' '}
           <Link className="link" to="/register">
