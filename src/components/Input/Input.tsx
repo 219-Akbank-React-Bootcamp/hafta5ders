@@ -1,9 +1,18 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Styled } from './Input.styled'
 import { InputProps } from './Input.types'
 
 const Input: FC<InputProps> = (props) => {
   const [isSecret, setIsSecret] = useState<boolean>(props.type === 'password')
+  const [value, setValue] = useState<string>(
+    props.defaultValue || props.value || ''
+  )
+
+  useEffect(() => {
+    if (props.value !== undefined) {
+      setValue(props.value)
+    }
+  }, [props.value])
 
   const calculateType = () => {
     if (props.type === 'text') return 'text'
@@ -16,13 +25,28 @@ const Input: FC<InputProps> = (props) => {
     setIsSecret((prev) => !prev)
   }
 
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const v = e.target.value
+    setValue(v)
+    props.onChange?.(e,v)
+  }
+
   return (
     <Styled style={props.style}>
-      {props.icon ? <div className="icon">{props.icon}</div> : null}
-      <input type={calculateType()} value={props.value} />
+      {props.icon ? (
+        <div className="icon">
+          <span className="material-symbols-outlined">{props.icon}</span>
+        </div>
+      ) : null}
+      <input onChange={handleChange} type={calculateType()} value={value} placeholder={props.placeholder} />
       {props.type === 'password' ? (
         <button onClick={handleClickEye} className="eye">
-          E
+          <span className="material-symbols-outlined">{
+
+            isSecret ? "visibility" : "visibility_off"
+
+
+          }</span>
         </button>
       ) : null}
     </Styled>
