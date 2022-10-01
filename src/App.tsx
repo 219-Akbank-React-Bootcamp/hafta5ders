@@ -8,29 +8,28 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import TodoApp from './pages/TodoApp'
 import { useLoginContext } from './contexts/LoginContext/LoginContext'
+import { TodoAppProvider } from './contexts/TodoAppContext/TodoAppContext'
 function App() {
+  const { isLoggedIn } = useLoginContext()
 
-  const {isLoggedIn} = useLoginContext()
-  
   return (
     <div className="App">
       {!isLoggedIn ? (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LoginPage />} />
-            <Route
-              path="/login"
-              element={<LoginPage />}
-            />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
           </Routes>
         </BrowserRouter>
       ) : (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<TodoApp />} />
-          </Routes>
-        </BrowserRouter>
+        <TodoAppProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<TodoApp />} />
+            </Routes>
+          </BrowserRouter>
+        </TodoAppProvider>
       )}
     </div>
   )
