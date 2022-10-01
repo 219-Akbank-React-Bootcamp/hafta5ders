@@ -1,21 +1,22 @@
-import axios from 'axios'
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import { useNavigate } from 'react-router'
 import LoginForm from '../components/LoginForm'
 import { LoginFormProps } from '../components/LoginForm/LoginForm.types'
-
-export type LoginPageProps = {
-  onSuccess: (token: string) => void
-  
-}
+import { LoginContext, useLoginContext } from '../contexts/LoginContext/LoginContext'
+import { auth } from '../services/http/patika/endpoints/auth'
+export type LoginPageProps = {}
 const LoginPage: FC<LoginPageProps> = (props) => {
   const navigate = useNavigate()
+  const { login } = useLoginContext()
+
+
   const handleLogin: LoginFormProps['onLogin'] = (values) => {
-    axios.post('http://localhost:80/auth/login', values).then(({ data }) => {
-      props.onSuccess?.(data.token)
-      navigate("/")
+    auth.login(values).then(({ data }) => {
+      login(data.token, data.username)
+      navigate('/')
     })
   }
+
   return <LoginForm onLogin={handleLogin} />
 }
 

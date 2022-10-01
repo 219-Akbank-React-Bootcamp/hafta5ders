@@ -1,12 +1,17 @@
-import axios from 'axios'
-import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import RegisterForm from '../components/RegisterForm'
 import { RegisterFormProps } from '../components/RegisterForm/RegisterForm.types'
+import { useLoginContext } from '../contexts/LoginContext/LoginContext'
+import { auth } from '../services/http/patika/endpoints/auth'
 
 const RegisterPage = () => {
-    
+  const navigate = useNavigate()
+  const {login} = useLoginContext()
   const handleRegister: RegisterFormProps['onRegister'] = (values) => {
-    axios.post('http://localhost:80/auth/register',values)
+    auth.register(values).then(({data})=>{
+      login(data.token,data.username)
+      navigate('/')
+    })
   }
 
   return <RegisterForm onRegister={handleRegister} />

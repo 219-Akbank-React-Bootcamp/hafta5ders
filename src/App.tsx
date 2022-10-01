@@ -7,27 +7,20 @@ import { BrowserRouter, Route, Link, Routes } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import TodoApp from './pages/TodoApp'
+import { useLoginContext } from './contexts/LoginContext/LoginContext'
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-  const [token, setToken] = useState<string>('')
 
-  const handleLogin = (token: string) => {
-    setToken(token)
-    setIsLoggedIn(true)
-  }
-  const handleLogout = () => {
-    setToken('')
-    setIsLoggedIn(false)
-  }
+  const {isLoggedIn} = useLoginContext()
+  
   return (
     <div className="App">
       {!isLoggedIn ? (
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<LoginPage onSuccess={handleLogin} />} />
+            <Route path="/" element={<LoginPage />} />
             <Route
               path="/login"
-              element={<LoginPage onSuccess={handleLogin} />}
+              element={<LoginPage />}
             />
             <Route path="/register" element={<RegisterPage />} />
           </Routes>
@@ -35,7 +28,7 @@ function App() {
       ) : (
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<TodoApp onLogout={handleLogout} />} />
+            <Route path="/" element={<TodoApp />} />
           </Routes>
         </BrowserRouter>
       )}
